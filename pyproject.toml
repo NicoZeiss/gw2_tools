@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "streamlit>=1.56.0",
+    "supabase>=2.28.3",
 ]
 
 [tool.setuptools]
