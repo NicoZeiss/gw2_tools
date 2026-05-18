@@ -44,5 +44,6 @@ def main():
 
 
 if __name__ == "__main__":
+    st.write(f"GW2_API_ROOT: {GW2_API_ROOT}")
     init_state()
     main()
