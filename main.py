@@ -31,6 +31,8 @@ def load_gw2_api_key():
 
 
 def gw2_chat_module():
+    if "api_key" not in st.session_state or st.session_state["api_key"] is None:
+        return
     messages = st.container(height="stretch")
     if prompt := st.chat_input("GW2 API endpoint"):
         messages.chat_message("user").write(prompt)
