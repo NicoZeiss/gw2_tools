@@ -21,10 +21,10 @@ def gw2_get(endpoint: str):
 
 
 def load_gw2_api_key():
-    st.session_state["api_key"] = st.text_input(
+    st.text_input(
         "Enter your GW2 API key",
         type="password",
-        key="api_key_input",
+        key="api_key",
     )
 
 
@@ -44,6 +44,5 @@ def main():
 
 
 if __name__ == "__main__":
-    st.write(f"GW2_API_ROOT: {GW2_API_ROOT}")
     init_state()
     main()
