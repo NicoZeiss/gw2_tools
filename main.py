@@ -7,7 +7,8 @@ GW2_API_ROOT = st.secrets["GW2_API_ROOT"]
 
 
 def init_state():
-    pass
+    if "api_key" not in st.session_state:
+        st.session_state["api_key"] = None
 
 
 def gw2_get(endpoint: str):
@@ -20,19 +21,14 @@ def gw2_get(endpoint: str):
 
 
 def load_gw2_api_key():
-    if "api_key" not in st.session_state:
-        st.session_state["api_key"] = None
-    if st.session_state["api_key"] is None:
-        st.session_state["api_key"] = st.text_input(
-            "Enter your GW2 API key",
-            type="password",
-            key="api_key_inpuy",
-        )
+    st.session_state["api_key"] = st.text_input(
+        "Enter your GW2 API key",
+        type="password",
+        key="api_key_input",
+    )
 
 
 def gw2_chat_module():
-    if "api_key" not in st.session_state or st.session_state["api_key"] is None:
-        return
     messages = st.container(height="stretch")
     if prompt := st.chat_input("GW2 API endpoint"):
         messages.chat_message("user").write(prompt)
@@ -41,8 +37,10 @@ def gw2_chat_module():
 
 
 def main():
-    load_gw2_api_key()
-    gw2_chat_module()
+    if st.session_state["api_key"] is None:
+        load_gw2_api_key()
+    else:
+        gw2_chat_module()
 
 
 if __name__ == "__main__":
