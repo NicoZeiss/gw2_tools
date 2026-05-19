@@ -119,7 +119,7 @@ def sign_up(email: str, password: str):
 
 def sign_in(email: str, password: str):
     try:
-        user = supabase.auth.sign_in({"email": email, "password": password})
+        user = supabase.auth.sign_in_with_password({"email": email, "password": password})
         return user
     except Exception as e:
         st.error(f"Error signing in: {e}")
