@@ -3,7 +3,6 @@
 # from streamlit_cookies_manager import EncryptedCookieManager
 
 
-
 # GW2_API_ROOT = st.secrets["GW2_API_ROOT"]
 # COOKIE_PASSWORD = st.secrets["COOKIE_PASSWORD"]
 
@@ -95,13 +94,11 @@
 #     navbar()
 
 
-
-
 import streamlit as st
 
-from app.auth import auth_screen, sign_out
+from auth import auth_screen, sign_out
 
-from app.state import StateManager
+from state import StateManager
 
 
 def main_app(user_email: str):

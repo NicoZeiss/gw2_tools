@@ -1,8 +1,8 @@
 import streamlit as st
 
-from app.auth import sign_out
+from auth import sign_out
 
-from app.state import StateManager
+from state import StateManager
 
 
 def sidebar():
