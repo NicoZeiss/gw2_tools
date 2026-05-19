@@ -96,7 +96,7 @@
 
 import streamlit as st
 
-from auth import auth_screen, sign_out
+from auth import auth_screen, get_auth
 
 from state import StateManager
 
@@ -104,14 +104,15 @@ from state import StateManager
 def main_app(user_email: str):
     st.title("Supabase Auth Example")
     st.success(f"Welcome, {user_email}!")
-    if st.button("Sign Out"):
-        sign_out()
+    # if st.button("Sign Out"):
+    #     sign_out()
 
 
 if __name__ == "__main__":
+    auth = get_auth()
     StateManager.init_state()
 
-    if StateManager.is_logged_in():
-        main_app(StateManager.get("user_email"))
+    if auth.is_authenticated:
+        main_app(auth.email)
     else:
-        auth_screen()
+        auth_screen(auth)

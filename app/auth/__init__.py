@@ -1,5 +1,5 @@
-from .supabase_client import sign_up, sign_in, sign_out
+from .auth_instance import get_auth
 from .auth_screen import auth_screen
 
 
-__all__ = ["auth_screen", "sign_out"]
+__all__ = ["auth_screen", "get_auth"]
