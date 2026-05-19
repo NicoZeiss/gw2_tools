@@ -97,41 +97,11 @@
 
 
 
-
-
-
 import streamlit as st
-from supabase import create_client, Client
 
-SUPABASE_URL = st.secrets["SUPABASE_URL"]
-SUPABASE_KEY = st.secrets["SUPABASE_KEY"]
+from auth import auth_screen, sign_out
 
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-
-
-def sign_up(email: str, password: str):
-    try:
-        user = supabase.auth.sign_up({"email": email, "password": password})
-        return user
-    except Exception as e:
-        st.error(f"Error signing up: {e}")
-
-
-def sign_in(email: str, password: str):
-    try:
-        user = supabase.auth.sign_in_with_password({"email": email, "password": password})
-        return user
-    except Exception as e:
-        st.error(f"Error signing in: {e}")
-
-
-def sign_out():
-    try:
-        supabase.auth.sign_out()
-        st.session_state.user_email = None
-        st.rerun()
-    except Exception as e:
-        st.error(f"Error signing out: {e}")
+from .state import StateManager
 
 
 def main_app(user_email: str):
@@ -140,30 +110,11 @@ def main_app(user_email: str):
     if st.button("Sign Out"):
         sign_out()
 
-def auth_screen():
-    st.title("Streamlit Supabase Auth App")
-    option = st.selectbox("Choose an option", ["Login", "Sign Up"])
-    email = st.text_input("Email")
-    password = st.text_input("Password", type="password")
-
-    if option == "Sign Up" and st.button("Register"):
-        user = sign_up(email, password)
-        if user and user.user:
-            st.success("Sign up successful! Please log in.")
-
-    if option == "Login" and st.button("Login"):
-        user = sign_in(email, password)
-        if user and user.user:
-            st.session_state.user_email = user.user.email
-            st.success(f"Welcome back, {user.user.email}!")
-            st.rerun()
-
 
 if __name__ == "__main__":
-    if "user_email" not in st.session_state:
-        st.session_state.user_email = None
+    StateManager.init_state()
 
-    if st.session_state.user_email:
-        main_app(st.session_state.user_email)
+    if StateManager.is_logged_in():
+        main_app(StateManager.get("user_email"))
     else:
         auth_screen()
