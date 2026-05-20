@@ -1,12 +1,9 @@
 import streamlit as st
 from supabase import create_client, Client
-from streamlit_cookies_controller import CookieController
 
 
 SUPABASE_URL = st.secrets["SUPABASE_URL"]
 SUPABASE_KEY = st.secrets["SUPABASE_KEY"]
-
-COOKIE_NAME = "sb_refresh_token"
 
 
 @st.cache_resource
@@ -18,36 +15,15 @@ class AuthManager:
 
     def __init__(self):
         self.supabase: Client = get_supabase()
-        self.cookies = CookieController()
 
-        self._restore_session()
+        self._load_session()
 
-    def _restore_session(self):
-        if st.session_state.get("authenticated"):
-            return
+    def _load_session(self):
+        session = self.supabase.auth.get_session()
 
-        refresh_token = self.cookies.get(COOKIE_NAME)
-        if not refresh_token:
-            return
-
-        try:
-            response = self.supabase.auth.refresh_session(
-                refresh_token
-            )
-
-            session = response.session
-            user = response.user
-
-            self._set_session(user, session)
-            self.cookies.set(
-                COOKIE_NAME,
-                session.refresh_token,
-                max_age=60 * 60 * 24 * 30,  # 30 jours
-                secure=True,
-            )
-
-        except Exception:
-            self.cookies.remove(COOKIE_NAME)
+        if session and session.user:
+            self._set_session(session.user, session)
+        else:
             self._clear_session()
 
     def _set_session(self, user, session):
@@ -67,27 +43,23 @@ class AuthManager:
             return response
         except Exception as e:
             st.error(f"Error signing up: {e}")
+            return None
 
     def sign_in(self, email: str, password: str):
         try:
-            response = self.supabase.auth.sign_in_with_password(
-                {"email": email, "password": password})
+            response = self.supabase.auth.sign_in_with_password({
+                "email": email,
+                "password": password,
+            })
             session = response.session
             user = response.user
 
             self._set_session(user, session)
-
-            self.cookies.set(
-                COOKIE_NAME,
-                session.refresh_token,
-                max_age=60 * 60 * 24 * 30,
-                secure=True,
-            )
-            st.rerun()
+            return True
 
         except Exception as e:
             st.error(f"Error signing in: {e}")
-            return None
+            return False
 
     def sign_out(self):
         try:
@@ -95,7 +67,6 @@ class AuthManager:
         except Exception as e:
             pass
 
-        self.cookies.remove(COOKIE_NAME)
         self._clear_session()
         st.rerun()
 
@@ -113,6 +84,4 @@ class AuthManager:
     @property
     def email(self):
         user = self.user
-        if user:
-            return user.email
-        return None
+        return getattr(user, "email", None)

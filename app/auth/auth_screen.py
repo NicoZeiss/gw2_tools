@@ -4,6 +4,7 @@ from .auth_manager import AuthManager
 
 def auth_screen(auth: AuthManager):
     st.title("Streamlit Supabase Auth App")
+
     option = st.selectbox("Choose an option", ["Login", "Sign Up"])
     email = st.text_input("Email")
     password = st.text_input("Password", type="password")
@@ -14,4 +15,6 @@ def auth_screen(auth: AuthManager):
             st.success("Sign up successful! Please log in.")
 
     if option == "Login" and st.button("Login"):
-        auth.sign_in(email, password)
+        success = auth.sign_in(email, password)
+        if success:
+            st.rerun()

@@ -96,9 +96,9 @@
 
 import streamlit as st
 
-from auth import auth_screen, get_auth
+# from auth import auth_screen, get_auth
 
-from state import StateManager
+# from state import StateManager
 
 
 def main_app(user_email: str):
@@ -108,11 +108,35 @@ def main_app(user_email: str):
     #     sign_out()
 
 
-if __name__ == "__main__":
-    auth = get_auth()
-    StateManager.init_state()
+def login_screen():
+    with st.container(horizontal_alignment="center"):
+        st.title("Welcome on GW2-Tools App",
+                 text_alignment="center", anchor=False)
+        if st.button("Please, login to continue", type="primary"):
+            st.login("auth0")
+    st.stop()
 
-    if auth.is_authenticated:
-        main_app(auth.email)
-    else:
-        auth_screen(auth)
+
+if __name__ == "__main__":
+    st.stop()
+    # auth = get_auth()
+    # StateManager.init_state()
+
+    # if auth.is_authenticated:
+    #     main_app(auth.email)
+    # else:
+    #     auth_screen(auth)
+    # with st.sidebar:
+    #     st.write(st.session_state)
+
+    if not st.user.is_logged_in:
+        login_screen()
+
+    st.success("Tu es connecté !")
+
+    st.write("User:")
+    st.json(st.user)
+
+    # Logout
+    if st.button("Logout"):
+        st.logout()
