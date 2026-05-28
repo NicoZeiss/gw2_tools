@@ -57,3 +57,6 @@ class StateManager:
 
     def clear(self) -> None:
         self._state.clear()
+
+    def show(self) -> None:
+        st.json(self._state)

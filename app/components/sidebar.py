@@ -11,6 +11,7 @@ def logout(state: StateManager):
 def sidebar(state: StateManager):
     with st.sidebar:
         st.title(f"Welcome, {st.user.nickname}")
+        state.show()
 
         if not state.exists(StateKeys.GW2_API_KEY):
             key = st.text_input(
