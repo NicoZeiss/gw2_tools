@@ -13,6 +13,7 @@ def sidebar(state: StateManager):
         st.title("This is a title")
 
         st.write(f"Welcome, {st.user.nickname}")
+        st.write(f"Your GW2 API key: {state.get(StateKeys.GW2_API_KEY)}")
 
         if st.button("Logout"):
             logout(state)
