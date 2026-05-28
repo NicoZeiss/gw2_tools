@@ -26,7 +26,7 @@ def admin_dialog(state: StateManager):
                 if st.button("Cancel"):
                     state.set("show_admin_popup", False)
                     st.rerun()
-                if state.get("is_admin", False):
+                if not state.get("is_admin", False):
                     if st.button("Login", type="primary"):
                         if password == st.secrets["ADMIN_PASSWORD"]:
                             state.set("is_admin", True)
