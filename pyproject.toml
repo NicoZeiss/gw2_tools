@@ -4,10 +4,7 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
-dependencies = [
-    "streamlit[auth]>=1.56.0",
-    "supabase>=2.28.3",
-]
+dependencies = ["streamlit[auth]==1.56.0", "supabase>=2.28.3"]
 
 [tool.setuptools]
 packages = []
