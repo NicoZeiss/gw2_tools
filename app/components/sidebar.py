@@ -2,7 +2,7 @@ import streamlit as st
 
 
 def sidebar():
-    st.sidebar.title("Settings")
     with st.sidebar:
+        st.title("This is a title")
         if st.button("Logout"):
             st.logout()
