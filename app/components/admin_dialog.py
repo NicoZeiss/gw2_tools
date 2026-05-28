@@ -22,8 +22,6 @@ def admin_dialog(state: StateManager):
                 type="password"
             )
 
-            col1, col2 = st.columns(2)
-
             with st.container(horizontal=True, horizontal_alignment="right"):
                 if st.button("Cancel"):
                     state.set("show_admin_popup", False)
