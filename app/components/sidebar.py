@@ -18,6 +18,11 @@ def set_api_key(state: StateManager):
         st.rerun()
 
 
+def delete_api_key(state: StateManager):
+    state.delete(StateKeys.GW2_API_KEY)
+    st.rerun()
+
+
 def sidebar(state: StateManager):
     with st.sidebar:
         st.title(f"Welcome, {st.user.nickname}")
@@ -28,6 +33,9 @@ def sidebar(state: StateManager):
         else:
             st.error("GW2 API key is not set.")
             set_api_key(state)
-
-        if st.button("Logout"):
-            logout(state)
+        
+        with st.container(horizontal=True):
+            if st.button("Delete API Key", type="secondary"):
+                delete_api_key(state)
+            if st.button("Logout"):
+                logout(state)
