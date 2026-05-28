@@ -12,7 +12,7 @@ def sidebar(state: StateManager):
     with st.sidebar:
         st.title("This is a title")
 
-        st.write(f"User: {st.user}")
+        st.write(f"User: {st.user.name}")
 
         if st.button("Logout"):
             logout(state)
