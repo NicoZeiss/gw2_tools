@@ -35,7 +35,7 @@ def sidebar(state: StateManager):
             set_api_key(state)
         
         with st.container(horizontal=True):
-            if st.button("Delete API Key", type="tertiary"):
+            if st.button("Delete API Key"):
                 delete_api_key(state)
             if st.button("Logout"):
                 logout(state)
