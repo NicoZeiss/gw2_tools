@@ -17,25 +17,25 @@ def admin_dialog(state: StateManager):
         @st.dialog("Admin Access")
         def _admin_dialog():
             if not state.get("is_admin", False):
-
                 password = st.text_input(
                     "Password",
                     type="password"
                 )
 
-                with st.container(horizontal=True, horizontal_alignment="right"):
-                    if st.button("Cancel"):
-                        state.set("show_admin_popup", False)
-                        st.rerun()
+            with st.container(horizontal=True, horizontal_alignment="right"):
+                if st.button("Cancel"):
+                    state.set("show_admin_popup", False)
+                    st.rerun()
+                if not state.get("is_admin", False):
                     if st.button("Login", type="primary"):
                         if password == st.secrets["ADMIN_PASSWORD"]:
                             state.set("is_admin", True)
                             state.set("show_admin_popup", False)
                             st.rerun()
-            else:
-                if st.button("Logout", type="primary"):
-                    state.set("is_admin", False)
-                    state.set("show_admin_popup", False)
-                    st.rerun()
+                else:
+                    if st.button("Logout", type="primary"):
+                        state.set("is_admin", False)
+                        state.set("show_admin_popup", False)
+                        st.rerun()
 
         _admin_dialog()
