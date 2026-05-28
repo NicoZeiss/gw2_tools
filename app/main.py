@@ -1,28 +1,3 @@
-# import streamlit as st
-# import requests
-# from streamlit_cookies_manager import EncryptedCookieManager
-
-
-# GW2_API_ROOT = st.secrets["GW2_API_ROOT"]
-# COOKIE_PASSWORD = st.secrets["COOKIE_PASSWORD"]
-
-# cookies = EncryptedCookieManager(
-#     prefix="gw2_app",
-#     password=COOKIE_PASSWORD,
-# )
-
-# if not cookies.ready():
-#     st.stop()
-
-
-# def init_state():
-#     # if "api_key" not in st.session_state:
-#     #     st.session_state["api_key"] = None
-
-#     if "messages" not in st.session_state:
-#         st.session_state.messages = []
-
-
 # def gw2_get(endpoint: str):
 #     api_key = get_api_key()
 #     url = f"{GW2_API_ROOT}/{endpoint}"
@@ -31,29 +6,6 @@
 #     if response.status_code == 200:
 #         return response.json()
 #     return None
-
-
-# def get_api_key():
-#     return cookies.get("gw2_api_key")
-
-# def set_api_key(key: str):
-#     cookies["gw2_api_key"] = key
-#     cookies.save()
-
-# def clear_api_key():
-#     if "gw2_api_key" in cookies:
-#         del cookies["gw2_api_key"]
-#         cookies.save()
-
-# def load_gw2_api_key():
-#     key = st.text_input(
-#         "Enter your GW2 API key",
-#         type="password",
-#     )
-
-#     if key:
-#         set_api_key(key)
-#         st.rerun()
 
 
 # def gw2_chat_module():
@@ -66,56 +18,28 @@
 #         st.session_state.messages.append(("assistant", data))
 #         st.rerun()
 
-
-# def main():
-#     api_key = get_api_key()
-
-#     if not api_key:
-#         load_gw2_api_key()
-#     else:
-#         gw2_chat_module()
-
-
-# def navbar():
-#     st.sidebar.title("Settings")
-
-#     if st.sidebar.button("Reset API Key"):
-#         clear_api_key()
-#         st.rerun()
-
-#     if st.sidebar.button("Clear Chat"):
-#         st.session_state.messages = []
-#         st.rerun()
-
-
-# if __name__ == "__main__":
-#     init_state()
-#     main()
-#     navbar()
-
-
 import streamlit as st
 
-from auth import auth_screen
+from screens import auth_screen, api_key_screen
 from components import app_sidebar, admin_dialog
 
-from state import StateManager
+from state import StateManager, StateKeys
 
 
-def main_app():
-    st.title("OAuth Example")
+def main_app(state: StateManager):
+    if not st.user.is_logged_in:
+        auth_screen()
+
+    app_sidebar(state)
+
+    if state.empty(StateKeys.GW2_API_KEY):
+        api_key_screen(state)
 
     st.write("User:")
     st.json(st.user)
 
 
 if __name__ == "__main__":
-    if not st.user.is_logged_in:
-        auth_screen()
-
     state = StateManager()
-
-    app_sidebar(state)
-    main_app()
-
-    admin_dialog(state)
+    main_app(state)
+    # admin_dialog(state)

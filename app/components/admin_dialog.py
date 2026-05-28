@@ -26,7 +26,7 @@ def _admin_dialog(state: StateManager):
             "Password",
             type="password"
         )
-        valid_password = password == st.secrets["ADMIN_PASSWORD"]
+        valid_password = password == st.secrets["global"]["ADMIN_PASSWORD"]
 
     with st.container(horizontal=True, horizontal_alignment="right"):
         if st.button("Cancel"):
