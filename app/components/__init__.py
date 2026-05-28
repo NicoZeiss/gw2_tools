@@ -1,4 +1,4 @@
-from .sidebar import sidebar as app_sidebar
+from .sidebar import app_sidebar
 
 
 __all__ = ["app_sidebar"]

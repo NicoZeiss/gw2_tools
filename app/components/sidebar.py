@@ -23,20 +23,25 @@ def delete_api_key(state: StateManager):
     st.rerun()
 
 
-def sidebar(state: StateManager):
-    with st.sidebar:
-        st.title(f"Welcome, {st.user.nickname}")
-        state.show()
+def _app_sidebar(state: StateManager):
+    st.title(f"Welcome, {st.user.nickname}")
 
+    if state.not_empty(StateKeys.GW2_API_KEY):
+        st.success("GW2 API key is set.")
+    else:
+        st.error("GW2 API key is not set.")
+        set_api_key(state)
+    
+    with st.container(horizontal=True):
         if state.not_empty(StateKeys.GW2_API_KEY):
-            st.success("GW2 API key is set.")
-        else:
-            st.error("GW2 API key is not set.")
-            set_api_key(state)
-        
-        with st.container(horizontal=True):
-            if state.not_empty(StateKeys.GW2_API_KEY):
-                if st.button("Delete API Key"):
-                    delete_api_key(state)
-            if st.button("Logout"):
-                logout(state)
+            if st.button("Delete API Key"):
+                delete_api_key(state)
+        if st.button("Logout"):
+            logout(state)
+    
+    state.show()
+
+
+def app_sidebar(state: StateManager):
+    with st.sidebar:
+        _app_sidebar(state)
