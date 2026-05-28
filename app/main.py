@@ -97,7 +97,7 @@
 import streamlit as st
 
 from auth import auth_screen
-from components import app_sidebar
+from components import app_sidebar, admin_dialog
 
 from state import StateManager
 
@@ -118,4 +118,4 @@ if __name__ == "__main__":
     app_sidebar(state)
     main_app()
 
-    
+    admin_dialog(state)

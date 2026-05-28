@@ -39,7 +39,8 @@ def _app_sidebar(state: StateManager):
         del_api_key_btn(state)
         logout_btn(state)
     
-    state.show()
+    if state.get("is_admin", False):
+        st.json(state._state)
 
 
 def app_sidebar(state: StateManager):
