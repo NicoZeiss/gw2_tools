@@ -118,7 +118,7 @@ def login_screen():
 
 
 if __name__ == "__main__":
-    st.stop()
+    # st.stop()
     # auth = get_auth()
     # StateManager.init_state()
 
