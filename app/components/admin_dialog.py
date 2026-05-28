@@ -24,20 +24,16 @@ def admin_dialog(state: StateManager):
 
             col1, col2 = st.columns(2)
 
-            with col1:
+            with st.container(horizontal=True, horizontal_alignment="right"):
+                if st.button("Cancel"):
+                    state.set("show_admin_popup", False)
+                    st.rerun()
                 if st.button("Login"):
-
                     if password == st.secrets["ADMIN_PASSWORD"]:
                         state.set("is_admin", True)
                         state.set("show_admin_popup", False)
                         st.rerun()
-
                     else:
                         st.error("Invalid password")
-
-            with col2:
-                if st.button("Cancel"):
-                    state.set("show_admin_popup", False)
-                    st.rerun()
-
+                        
         _admin_dialog()
