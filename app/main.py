@@ -99,6 +99,8 @@ import streamlit as st
 from auth import auth_screen
 from components import app_sidebar
 
+from state import StateManager
+
 
 def main_app():
     st.title("Supabase Auth Example")
@@ -111,7 +113,9 @@ if __name__ == "__main__":
     if not st.user.is_logged_in:
         auth_screen()
 
-    app_sidebar()
+    state = StateManager()
+
+    app_sidebar(state)
     main_app()
 
     
