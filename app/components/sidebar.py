@@ -8,19 +8,24 @@ def logout(state: StateManager):
     st.logout()
 
 
+def set_api_key(state: StateManager):
+    key = st.text_input(
+        "Enter your GW2 API key",
+        type="password",
+    )
+    if key:
+        state.set(StateKeys.GW2_API_KEY, key)
+        st.rerun()
+
+
 def sidebar(state: StateManager):
     with st.sidebar:
         st.title(f"Welcome, {st.user.nickname}")
         state.show()
 
-        if not state.exists(StateKeys.GW2_API_KEY):
-            key = st.text_input(
-                "Enter your GW2 API key",
-                type="password",
-            )
-            if key:
-                state.set(StateKeys.GW2_API_KEY, key)
-                st.rerun()
+        if state.get(StateKeys.GW2_API_KEY) is None:
+            st.error("GW2 API key is not set.")
+            set_api_key(state)
         else:
             st.success("GW2 API key is set.")
 
