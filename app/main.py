@@ -95,9 +95,6 @@
 
 
 import streamlit as st
-import components
-print(components)
-print(components.__file__)
 
 from auth import auth_screen
 from components import app_sidebar
