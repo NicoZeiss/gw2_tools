@@ -33,7 +33,5 @@ def admin_dialog(state: StateManager):
                         state.set("is_admin", True)
                         state.set("show_admin_popup", False)
                         st.rerun()
-                    else:
-                        st.error("Invalid password")
 
         _admin_dialog()
