@@ -48,6 +48,9 @@ class StateManager:
     def not_empty(self, key: StateKeys | str) -> bool:
         key = self._ensure_key(key)
         return bool(self._state.get(key))
+    
+    def empty(self, key: StateKeys | str) -> bool:
+        return not self.not_empty(key)
 
     def append(self, key: StateKeys | str, value: Any) -> None:
         key = self._ensure_key(key)
