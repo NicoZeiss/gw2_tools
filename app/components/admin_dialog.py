@@ -1,11 +1,11 @@
 import streamlit as st
-from streamlit_shortcuts import button
+from streamlit_shortcuts import shortcut_button
 
 from state import StateManager
 
 
 def admin_dialog(state: StateManager):
-    if button(
+    if shortcut_button(
         "",
         shortcut="ctrl+alt+t",
         key="admin_shortcut"
