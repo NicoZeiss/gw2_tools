@@ -28,12 +28,12 @@ def admin_dialog(state: StateManager):
                 if st.button("Cancel"):
                     state.set("show_admin_popup", False)
                     st.rerun()
-                if st.button("Login"):
+                if st.button("Login", type="primary"):
                     if password == st.secrets["ADMIN_PASSWORD"]:
                         state.set("is_admin", True)
                         state.set("show_admin_popup", False)
                         st.rerun()
                     else:
                         st.error("Invalid password")
-                        
+
         _admin_dialog()
