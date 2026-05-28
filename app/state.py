@@ -45,6 +45,10 @@ class StateManager:
         key = self._ensure_key(key)
         return key in self._state
 
+    def not_empty(self, key: StateKeys | str) -> bool:
+        key = self._ensure_key(key)
+        return bool(self._state.get(key))
+
     def append(self, key: StateKeys | str, value: Any) -> None:
         key = self._ensure_key(key)
         lst = self.get(key, default_factory=list)

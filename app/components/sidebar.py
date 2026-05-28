@@ -23,11 +23,11 @@ def sidebar(state: StateManager):
         st.title(f"Welcome, {st.user.nickname}")
         state.show()
 
-        if state.get(StateKeys.GW2_API_KEY) is None:
+        if state.not_empty(StateKeys.GW2_API_KEY):
+            st.success("GW2 API key is set.")
+        else:
             st.error("GW2 API key is not set.")
             set_api_key(state)
-        else:
-            st.success("GW2 API key is set.")
 
         if st.button("Logout"):
             logout(state)
