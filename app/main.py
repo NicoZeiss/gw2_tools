@@ -97,7 +97,7 @@
 import streamlit as st
 
 from auth import auth_screen
-from components import sidebar
+from components import app_sidebar
 
 
 def main_app():
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     if not st.user.is_logged_in:
         auth_screen()
 
-    sidebar()
+    app_sidebar()
     main_app()
 
     
