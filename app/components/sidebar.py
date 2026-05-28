@@ -10,10 +10,18 @@ def logout(state: StateManager):
 
 def sidebar(state: StateManager):
     with st.sidebar:
-        st.title("This is a title")
+        st.title(f"Welcome, {st.user.nickname}")
 
-        st.write(f"Welcome, {st.user.nickname}")
-        st.write(f"Your GW2 API key: {state.get(StateKeys.GW2_API_KEY)}")
+        if not state.exists(StateKeys.GW2_API_KEY):
+            key = st.text_input(
+                "Enter your GW2 API key",
+                type="password",
+            )
+            if key:
+                state.set(StateKeys.GW2_API_KEY, key)
+                st.rerun()
+        else:
+            st.success("GW2 API key is set.")
 
         if st.button("Logout"):
             logout(state)

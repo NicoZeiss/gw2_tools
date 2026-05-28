@@ -103,7 +103,7 @@ from state import StateManager
 
 
 def main_app():
-    st.title("Supabase Auth Example")
+    st.title("OAuth Example")
 
     st.write("User:")
     st.json(st.user)
