@@ -14,7 +14,7 @@ def logout_btn(state: StateManager):
 def del_api_key_btn(service: AppService):
     if bool(service.api_key):
         if st.button("Delete API Key"):
-            service.state.delete(StateKeys.GW2_API_KEY)
+            service.delete_api_key()
             st.rerun()
 
 

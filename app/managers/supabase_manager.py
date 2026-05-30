@@ -63,3 +63,12 @@ class SupabaseManager:
             .upsert({"user_id": user_id, "gw2_api_key": api_key})
             .execute()
         )
+
+    def delete_gw2_api_key(self, user_id: str) -> None:
+        (
+            self.client
+            .table(SupabaseTables.USER_SETTINGS.value)
+            .update({"gw2_api_key": None})
+            .eq("user_id", user_id)
+            .execute()
+        )

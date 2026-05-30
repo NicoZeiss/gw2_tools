@@ -2,6 +2,7 @@ from managers import (
     StateManager,
     AuthManager,
     SupabaseManager,
+    GW2Manager,
 )
 from utils import StateKeys
 
@@ -14,6 +15,12 @@ class AppService:
 
         self.user = self._load_user()
         self.api_key = self._load_api_key()
+
+        self.gw2 = (
+            GW2Manager(self.api_key)
+            if self.api_key
+            else None
+        )
 
     @property
     def user_id(self) -> str | None:
@@ -38,3 +45,10 @@ class AppService:
         if api_key:
             self.state.set(StateKeys.GW2_API_KEY, api_key)
         return api_key
+
+    def delete_api_key(self):
+        if not self.user_id:
+            return
+
+        self.db.delete_gw2_api_key(self.user_id)
+        self.state.set(StateKeys.GW2_API_KEY, None)

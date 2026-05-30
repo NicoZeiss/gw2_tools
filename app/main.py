@@ -8,21 +8,34 @@
 #     return None
 
 
-# def gw2_chat_module():
-#     for role, content in st.session_state.messages:
-#         st.chat_message(role).write(content)
-
-#     if prompt := st.chat_input("GW2 API endpoint"):
-#         st.session_state.messages.append(("user", prompt))
-#         data = gw2_get(prompt)
-#         st.session_state.messages.append(("assistant", data))
-#         st.rerun()
-
 import streamlit as st
 
-from screens import auth_screen, api_key_screen
-from components import app_sidebar, admin_dialog
 from app_service import AppService
+from components import app_sidebar, admin_dialog
+from screens import auth_screen, api_key_screen
+from utils import StateKeys
+
+
+def gw2_chat_module(service: AppService):
+    messages = service.state.get(
+        StateKeys.MESSAGES,
+        default_factory=list,
+    )
+
+    for role, content in messages:
+        st.chat_message(role).write(content)
+
+    if prompt := st.chat_input("GW2 API endpoint"):
+        service.state.set(
+            StateKeys.MESSAGES,
+            messages + [("user", prompt)],
+        )
+        data = service.gw2.get(prompt)
+        service.state.set(
+            StateKeys.MESSAGES,
+            messages + [("user", prompt), ("assistant", data)],
+        )
+        st.rerun()
 
 
 def main_app(service: AppService):
@@ -35,8 +48,7 @@ def main_app(service: AppService):
     if not service.api_key:
         api_key_screen(service)
 
-    st.write("User:")
-    st.json(service.auth.user)
+    gw2_chat_module(service)
 
 
 if __name__ == "__main__":

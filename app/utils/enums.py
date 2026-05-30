@@ -10,3 +10,7 @@ class StateKeys(Enum):
 class SupabaseTables(Enum):
     USERS = "users"
     USER_SETTINGS = "user_settings"
+
+
+class GW2Endpoints(Enum):
+    ACCOUNT = "account"
