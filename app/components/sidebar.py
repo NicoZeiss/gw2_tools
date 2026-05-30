@@ -19,7 +19,7 @@ def del_api_key_btn(service: AppService):
 
 
 def _app_sidebar(service: AppService):
-    st.title(f"Welcome, {st.user.nickname}")
+    st.title(f"Welcome, {st.user.nickname.capitalize()}!")
 
     with st.container(horizontal=True):
         del_api_key_btn(service)
