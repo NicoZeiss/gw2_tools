@@ -13,4 +13,5 @@ class SupabaseTables(Enum):
 
 
 class GW2Endpoints(Enum):
-    ACCOUNT = "account"
+    ACCOUNT = "/account"
+    CHARACTERS = "/characters"

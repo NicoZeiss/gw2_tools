@@ -17,7 +17,7 @@ class GW2Manager:
     def _parse_endpoint(endpoint: GW2Endpoints | str):
         if isinstance(endpoint, GW2Endpoints):
             return endpoint.value
-        return endpoint[1:] if endpoint.startswith("/") else endpoint
+        return endpoint if endpoint.startswith("/") else f"/{endpoint}"
 
     def _get_url(self, endpoint: GW2Endpoints | str):
         endpoint = self._parse_endpoint(endpoint)
