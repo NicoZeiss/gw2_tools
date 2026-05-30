@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_shortcuts import shortcut_button
 
-from state import StateManager
+from managers import StateManager
 
 
 def _action_btn(state: StateManager, valid_password=False):

@@ -1,12 +1,8 @@
 import streamlit as st
 
-from enum import Enum
 from supabase import create_client, Client
 
-
-class SupabaseTables(Enum):
-    USERS = "users"
-    USER_SETTINGS = "user_settings"
+from utils import SupabaseTables
 
 
 class SupabaseManager:
@@ -54,8 +50,8 @@ class SupabaseManager:
             .eq("user_id", user_id)
             .execute()
         )
-        
-        if not result.data: 
+
+        if not result.data:
             return None
 
         return result.data[0]["gw2_api_key"]
@@ -64,6 +60,6 @@ class SupabaseManager:
         (
             self.client
             .table(SupabaseTables.USER_SETTINGS.value)
-            .upsert({ "user_id": user_id, "gw2_api_key": api_key })
+            .upsert({"user_id": user_id, "gw2_api_key": api_key})
             .execute()
         )

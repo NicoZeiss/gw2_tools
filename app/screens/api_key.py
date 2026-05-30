@@ -1,7 +1,6 @@
 import streamlit as st
 
 from app_service import AppService
-from state import StateKeys
 
 
 def api_key_screen(service: AppService):

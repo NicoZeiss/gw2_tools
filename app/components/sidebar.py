@@ -1,7 +1,8 @@
 import streamlit as st
 
 from app_service import AppService
-from state import StateManager, StateKeys
+from managers import StateManager
+from utils import StateKeys
 
 
 def logout_btn(state: StateManager):

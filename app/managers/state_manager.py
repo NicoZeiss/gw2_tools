@@ -1,13 +1,8 @@
 import streamlit as st
 
-from enum import Enum
 from typing import Any, Callable
 
-
-class StateKeys(Enum):
-    MESSAGES = "messages"
-    GW2_API_KEY = "gw2_api_key"
-    DB_USER_ID = "db_user_id"
+from utils import StateKeys
 
 
 class StateManager:
