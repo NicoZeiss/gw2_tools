@@ -22,24 +22,25 @@ import streamlit as st
 
 from screens import auth_screen, api_key_screen
 from components import app_sidebar, admin_dialog
+from app_service import AppService
 
-from state import StateManager, StateKeys
 
+def main_app(service: AppService):
 
-def main_app(state: StateManager):
-    if not st.user.is_logged_in:
+    if not service.user:
         auth_screen()
 
-    app_sidebar(state)
+    app_sidebar(service)
 
-    if state.empty(StateKeys.GW2_API_KEY):
-        api_key_screen(state)
+    if not service.api_key:
+        api_key_screen(service)
 
     st.write("User:")
-    st.json(st.user)
+    st.json(service.auth.user)
 
 
 if __name__ == "__main__":
-    state = StateManager()
-    main_app(state)
-    # admin_dialog(state)
+    service = AppService()
+    # admin_dialog(service.state)
+
+    main_app(service)

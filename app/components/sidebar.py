@@ -1,5 +1,6 @@
 import streamlit as st
 
+from app_service import AppService
 from state import StateManager, StateKeys
 
 
@@ -9,24 +10,24 @@ def logout_btn(state: StateManager):
         st.logout()
 
 
-def del_api_key_btn(state: StateManager):
-    if state.not_empty(StateKeys.GW2_API_KEY):
+def del_api_key_btn(service: AppService):
+    if bool(service.api_key):
         if st.button("Delete API Key"):
-            state.delete(StateKeys.GW2_API_KEY)
+            service.state.delete(StateKeys.GW2_API_KEY)
             st.rerun()
 
 
-def _app_sidebar(state: StateManager):
+def _app_sidebar(service: AppService):
     st.title(f"Welcome, {st.user.nickname}")
 
     with st.container(horizontal=True):
-        del_api_key_btn(state)
-        logout_btn(state)
+        del_api_key_btn(service)
+        logout_btn(service.state)
 
-    if state.get("is_admin", False):
-        st.json(state._state)
+    if service.state.get("is_admin", False):
+        st.json(service.state._state)
 
 
-def app_sidebar(state: StateManager):
+def app_sidebar(service: AppService):
     with st.sidebar:
-        _app_sidebar(state)
+        _app_sidebar(service)

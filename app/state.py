@@ -7,6 +7,7 @@ from typing import Any, Callable
 class StateKeys(Enum):
     MESSAGES = "messages"
     GW2_API_KEY = "gw2_api_key"
+    DB_USER_ID = "db_user_id"
 
 
 class StateManager:
@@ -48,7 +49,7 @@ class StateManager:
     def not_empty(self, key: StateKeys | str) -> bool:
         key = self._ensure_key(key)
         return bool(self._state.get(key))
-    
+
     def empty(self, key: StateKeys | str) -> bool:
         return not self.not_empty(key)
 
